@@ -18,6 +18,7 @@ exports.signup = async (req, res, next) => {
     req.body.password = await passHash(password, next);
 
     //create user with encrypted password
+
     const newUser = await User.create(req.body);
     //create token
     const token = generateToken(newUser, next);
