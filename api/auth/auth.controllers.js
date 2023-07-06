@@ -16,19 +16,14 @@ exports.signup = async (req, res, next) => {
     //encrypt the password
     const { password } = req.body;
     req.body.password = await passHash(password, next);
-    //assign false to staff to diffrentiate between staff and normal users
 
     //create user with encrypted password
-    if (req.file) {
-      req.body.photo = req.file.path.replace("\\", "/");
-    }
     const newUser = await User.create(req.body);
     //create token
     const token = generateToken(newUser, next);
 
     return res.status(201).json({ token });
   } catch (err) {
-    //  res.status(500).json("Server Error");
     return next(err);
   }
 };
@@ -38,7 +33,6 @@ exports.signin = async (req, res, next) => {
     const token = generateToken(req.user, next);
     return res.status(200).json({ token });
   } catch (err) {
-    // return res.status(500).json(err.message);
     return next(err);
   }
 };
