@@ -4,14 +4,12 @@ const router = express.Router();
 const passport = require("passport");
 const { param } = require("../../utils/params/param");
 
+const signedIn = passport.authenticate("jwt", { session: false });
+
 router.param("userId", param);
 
-router.get("/", passport.authenticate("jwt", { session: false }), getUser);
+router.get("/", signedIn, getUser);
 router.post("/signup", signup);
-router.post(
-  "/signin",
-  passport.authenticate("local", { session: false }),
-  signin
-);
+router.post("/signin", signedIn, signin);
 
 module.exports = router;
