@@ -4,6 +4,6 @@ const { getIngredents, createIngredent } = require('./ingredients.controller');
 
 const router = express.Router()
 
-router.get("/ingredent", getIngredents)
-router.post("ingredent", createIngredent)
+router.get("/", getIngredents)
+router.post("/", createIngredent)
 module.exports = router
