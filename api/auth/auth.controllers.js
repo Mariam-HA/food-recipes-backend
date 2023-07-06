@@ -19,9 +19,7 @@ exports.signup = async (req, res, next) => {
     //assign false to staff to diffrentiate between staff and normal users
 
     //create user with encrypted password
-    if (req.file) {
-      req.body.photo = req.file.path.replace("\\", "/");
-    }
+
     const newUser = await User.create(req.body);
     //create token
     const token = generateToken(newUser, next);
