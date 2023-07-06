@@ -1,13 +1,13 @@
 const cors = require("cors");
-const morgan = require("morgan");
 const express = require("express");
-const notFound = require("./middlewares/notFoundHandler");
+const config = require("./config/keys");
 const authRoutes = require("./api/auth/auth.routes");
+const notFound = require("./middlewares/notFoundHandler");
+const { localStrategy, jwtStrategy } = require("./middlewares/passport");
 const errorHandler = require("./middlewares/errorHandler");
 const connectDb = require("./database");
 const passport = require("passport");
-const config = require("./config/keys");
-const { localStrategy, jwtStrategy } = require("./middlewares/passport");
+const morgan = require("morgan");
 const path = require("path");
 
 connectDb();
@@ -27,6 +27,7 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 //routes
+app.use("/users", authRoutes);
 
 //errorhandlers:
 app.use(notFound);

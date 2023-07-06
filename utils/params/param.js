@@ -1,4 +1,4 @@
-const { fetchUser } = require("../params/fetchUser");
+const { fetchUser } = require("./fetchUser");
 
 exports.param = async (req, res, next, userId) => {
   try {
