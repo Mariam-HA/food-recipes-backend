@@ -1,5 +1,5 @@
 const Category = require("../../models/Category");
-const Categories = require("../../models/Category");
+// const Categories = require("../../models/Category");
 const Recipe = require("../../models/Recipes");
 
 exports.getAllRecipies = async (req, res, next) => {
