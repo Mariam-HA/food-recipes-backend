@@ -1,5 +1,9 @@
 const express = require("express");
-const { getAllRecipies, getOneRecipe } = require("./auth.controllers");
+const {
+  getAllRecipies,
+  deleteRecipe,
+  getOneRecipe,
+} = require("../auth/auth.controllers");
 const router = express.Router();
 const passport = require("passport");
 const { param } = require("../../utils/params/param");
@@ -8,6 +12,11 @@ router.param("userId", param);
 
 router.get("/:recipeId", getOneRecipe);
 
+router.delete(
+  "/:recipeId",
+  passport.authenticate("jwt", { session: false }),
+  deleteRecipe
+);
 router.get("/", getAllRecipies);
 
 module.exports = router;
