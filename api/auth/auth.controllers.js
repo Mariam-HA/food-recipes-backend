@@ -1,7 +1,7 @@
 const User = require("../../models/User");
 const passHash = require("../../utils/auth/passhash");
 const generateToken = require("../../utils/auth/generateToken");
-
+// const defaultPhoto = require("../../media/profile.png");
 exports.getUser = async (req, res, next) => {
   try {
     const users = await User.find(); //.select("-__v");
@@ -18,7 +18,13 @@ exports.signup = async (req, res, next) => {
     req.body.password = await passHash(password, next);
 
     //create user with encrypted password
-
+    if (req.file) {
+      req.body.userImage = req.file.path.replace("\\", "/");
+    }
+    // else {
+    //   req.file = defaultPhoto;
+    //   req.body.userImage = req.file.path.replace("\\", "/");
+    // }
     const newUser = await User.create(req.body);
     //create token
     const token = generateToken(newUser, next);

@@ -10,6 +10,7 @@ const userSchema = new Schema(
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
 
     reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
+    userImage: String,
   },
   { timestamps: true }
 );
