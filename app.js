@@ -3,6 +3,7 @@ const express = require("express");
 const config = require("./config/keys");
 const authRoutes = require("./api/auth/auth.routes");
 const categoryRouter = require("./api/Category/category.routes")
+const ingredientRouter = require("./api/ingredients/ingredients.routes")
 const notFound = require("./middlewares/notFoundHandler");
 const { localStrategy, jwtStrategy } = require("./middlewares/passport");
 const errorHandler = require("./middlewares/errorHandler");
@@ -30,6 +31,7 @@ passport.use(jwtStrategy);
 //routes
 app.use("/api/users", authRoutes);
 app.use("/api/category", categoryRouter)
+app.use("/api/ingredients", ingredientRouter)
 
 //errorhandlers:
 app.use(notFound);
