@@ -2,15 +2,25 @@ const { model, Schema } = require("mongoose");
 
 const recipeSchema = new Schema(
   {
-    name: { type: String, unique: true, requires: true },
-    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-    recipeImage: { type: String, unique: true, requires: true },
-    ingredients: [{ type: Schema.Types.ObjectId, ref: "Ingredient" }],
+    name: { type: String, requires: true },
+
+    recipeImage: { type: String, requires: true },
+
     steps: [{ type: String, unique: true, requires: true }],
-    decription: { type: String, unique: true, requires: true },
-    clickCounter: { type: Number, default: 0 },
-    categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
+
+    description: { type: String, unique: true, requires: true },
+
+    //clickCounter: { type: Number, default: 0 },
+
     prepareTime: { type: String, requires: true },
+
+    //relations
+    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+
+    ingredients: [{ type: Schema.Types.ObjectId, ref: "Ingredient" }],
+
+    categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
+
     reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true }
