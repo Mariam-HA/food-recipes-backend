@@ -45,7 +45,7 @@ const getCatById = async (req, res, next) => {
 }
 const deleteCat = async (req, res, next) => {
     try {
-        await Category.deleteOne()
+        await Category.findByIdAndDelete(req.params.categoryId)
         return res.status(204).end()
     } catch (error) {
         next(error)
