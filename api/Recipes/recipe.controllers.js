@@ -1,10 +1,12 @@
 const Category = require("../../models/Category");
 // const Categories = require("../../models/Category");
-const Recipe = require("../../models/Recipes");
+const Recipe = require("../../models/Recipe");
 
 exports.getAllRecipies = async (req, res, next) => {
   try {
-    const recipes = await Recipe.find().populate("Category Ingredient");
+    const recipes = await Recipe.find().populate(
+      "Category Ingredient User Review"
+    );
     res.status(200).json(recipes);
   } catch (error) {
     next(error);
