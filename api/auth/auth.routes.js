@@ -1,5 +1,11 @@
 const express = require("express");
-const { getUser, signin, signup } = require("./auth.controllers");
+const {
+  getUser,
+  signin,
+  signup,
+  deleteUser,
+  deleteAll,
+} = require("./auth.controllers");
 const router = express.Router();
 const passport = require("passport");
 const uploader = require("../../middlewares/uploader");
@@ -20,5 +26,9 @@ router.post(
   passport.authenticate("local", { session: false }),
   signin
 );
+
+router.delete("/:userId", deleteUser);
+
+router.delete("/", deleteAll);
 
 module.exports = router;
