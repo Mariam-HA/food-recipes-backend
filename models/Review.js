@@ -7,6 +7,7 @@ const reviewSchema = new Schema(
 
     //relations
     recipe: { type: Schema.Types.ObjectId, ref: "Recipe" },
+
     user: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

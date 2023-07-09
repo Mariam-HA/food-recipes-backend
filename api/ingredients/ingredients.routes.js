@@ -5,6 +5,9 @@ const {
   createIngredent,
   deleteIngredentById,
   getAllIngredents,
+  addIngredientToRecipe,
+  addNewIngredientToRecipe,
+  addExistingIngredientToRecipe,
 } = require("./ingredients.controller");
 
 require("dotenv").config();
@@ -31,6 +34,19 @@ router.get("/", getAllIngredents);
 
 router.post("/", signedIn, createIngredent);
 
+// add new ingredient to recipe
+router.post("/:recipeId", signedIn, addNewIngredientToRecipe);
+
+// add existing ingredient to recipe
+router.post(
+  "/:recipeId/:ingredientId",
+  signedIn,
+  addExistingIngredientToRecipe
+);
+
 router.delete("/:ingredentId", signedIn, deleteIngredentById);
 
 module.exports = router;
+
+// router.post('/:recipeId/ingredients', addIngredientToRecipe);
+//router.post("/:recipeId", signedIn, addIngredientToRecipe);
