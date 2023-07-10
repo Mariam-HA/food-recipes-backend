@@ -11,7 +11,7 @@ const router = express.Router();
 const passport = require("passport");
 const { param } = require("../../utils/params/param");
 
-router.param("userId", param);
+//router.param("userId", param);
 
 router.get("/:recipeId", getOneRecipe);
 router.post(
@@ -26,6 +26,10 @@ router.delete(
 );
 router.get("/", getAllRecipies);
 
-router.post("/", createRecipe);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  createRecipe
+);
 
 module.exports = router;

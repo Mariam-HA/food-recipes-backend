@@ -2,7 +2,7 @@ const { model, Schema } = require("mongoose");
 
 const ingredientSchema = new Schema(
   {
-    name: { type: String, unique: true, requires: true },
+    name: { type: String, unique: true, required: true },
 
     // relations
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
