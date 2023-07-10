@@ -35,7 +35,7 @@ passport.use(jwtStrategy);
 
 //routes
 app.use("/api/users", authRoutes);
-app.use("/api/category", categoryRouter);
+app.use("/api/categories", categoryRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/recipes", recipeRouter);
 app.use("/api/ingredients", ingredientRoutes);
@@ -48,5 +48,4 @@ app.listen(config.PORT, () => {
   console.log(`The application is running on ${config.PORT}`);
 });
 
-module.exports = app;
 // Youse fixed
