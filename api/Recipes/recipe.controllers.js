@@ -12,14 +12,14 @@ exports.getAllRecipies = async (req, res, next) => {
   }
 };
 
-exports.createRecipe = async (req, res, next) => {
-  try {
-    const newRecipe = await Recipe.create(req.body);
-    res.status(201).json(newRecipe);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.createRecipe = async (req, res, next) => {
+//   try {
+//     const newRecipe = await Recipe.create(req.body);
+//     res.status(201).json(newRecipe);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 exports.getOneRecipe = async (req, res, next) => {
   try {
