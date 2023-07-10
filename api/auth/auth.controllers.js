@@ -42,4 +42,23 @@ exports.signin = async (req, res, next) => {
   } catch (err) {
     return next(err);
   }
+}; //
+
+exports.deleteUser = async (req, res, next) => {
+  try {
+    await User.findByIdAndRemove({ _id: req.user.id });
+    return res.status(204).end();
+  } catch (error) {
+    return next(error);
+  }
+};
+
+exports.deleteAll = async (req, res, next) => {
+  try {
+    // Delete all
+    await User.deleteMany({});
+    return res.status(204).end();
+  } catch (error) {
+    return next(error);
+  }
 };

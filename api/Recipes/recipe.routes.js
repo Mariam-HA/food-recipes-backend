@@ -3,7 +3,7 @@ const {
   getAllRecipies,
   deleteRecipe,
   getOneRecipe,
-} = require("../auth/auth.controllers");
+} = require("../Recipes/recipe.controllers");
 const router = express.Router();
 const passport = require("passport");
 const { param } = require("../../utils/params/param");
