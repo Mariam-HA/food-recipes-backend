@@ -3,23 +3,13 @@ const Recipe = require("../../models/Recipe");
 
 exports.getAllRecipies = async (req, res, next) => {
   try {
-    const recipes = await Recipe.find()
-      .populate("categories ingredients reviews")
-      .populate("User", "username");
+    const recipes = await Recipe.find().populate("categories ingredients");
+    // .populate("User", "username");
     res.status(200).json(recipes);
   } catch (error) {
     next(error);
   }
 };
-
-// exports.createRecipe = async (req, res, next) => {
-//   try {
-//     const newRecipe = await Recipe.create(req.body);
-//     res.status(201).json(newRecipe);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 exports.getOneRecipe = async (req, res, next) => {
   try {
@@ -31,63 +21,36 @@ exports.getOneRecipe = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
 
-  const createRecipe = async (req, res, next) => {
-    try {
-      const existingRecipe = await Recipe.findOne({
-        name: req.body.name,
+exports.categoryAdd = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    const { recipeId } = req.params;
+
+    req.body.createdBy = req.user._id;
+
+    const recipe = await Recipe.findById(recipeId);
+    const category = await Category.findById(categoryId);
+
+    if (recipe && category) {
+      await recipe.updateOne({
+        $push: { categories: categoryId },
       });
 
-      if (existingRecipe) {
-        return res.status(400).json({ messge: "Recipe alredy exists!" });
-      } else {
-        if (req.file) {
-          req.body.recipeImage = `${req.file.path}`;
-        }
-        const recipe = await Recipe.create(req.body);
-        return res.status(201).json(recipe);
-      }
-    } catch (error) {
-      next(error);
+      await category.updateOne({
+        $push: { recipies: recipeId },
+      });
+
+      res.status(204).end();
+    } else {
+      res.status(404).json({ message: "category or recipies not found" });
     }
-  };
-
-  exports.categoryAdd = async (req, res, next) => {
-    try {
-      const { categoryId } = req.params;
-      const { recipeId } = req.params;
-
-      req.body.createdBy = req.user._id;
-
-      const recipe = await Recipe.findById(recipeId);
-      const category = await Category.findById(categoryId);
-
-      if (recipe && category) {
-        await recipe.updateOne({
-          $push: { categories: categoryId },
-        });
-
-        await category.updateOne({
-          $push: { recipies: recipeId },
-        });
-
-        res.status(204).end();
-      } else {
-        res.status(404).json({ message: "category or recipies not found" });
-      }
-    } catch (error) {
-      next(error);
-    }
-  };
-  // exports.deleteRecipe = async (req, res, next) => {
-  //   try {
-  //     await Recipe.findByIdAndDelete({ _id: req.recipe.id });
-  //     return res.status(204).end();
-  //   } catch (error) {
-  //     return next(error);
-  //   }
-  // };
+  } catch (error) {
+    next(error);
+  }
 };
+
 exports.deleteRecipe = async (req, res, next) => {
   try {
     const { recipeId } = req.params;
@@ -115,6 +78,26 @@ exports.deleteRecipe = async (req, res, next) => {
         message:
           "thise user  not registered and not allowed to delete a recipe!",
       });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.createRecipe = async (req, res, next) => {
+  try {
+    const existingRecipe = await Recipe.findOne({
+      name: req.body.name,
+    });
+
+    if (existingRecipe) {
+      return res.status(400).json({ messge: "Recipe alredy exists!" });
+    } else {
+      if (req.file) {
+        req.body.recipeImage = `${req.file.path}`;
+      }
+      const recipe = await Recipe.create(req.body);
+      return res.status(201).json(recipe);
     }
   } catch (error) {
     next(error);
