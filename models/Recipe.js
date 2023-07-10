@@ -7,7 +7,7 @@ const recipeSchema = new Schema(
     recipeImage: { type: String, unique: true, requires: true },
     ingredients: [{ type: Schema.Types.ObjectId, ref: "Ingredient" }],
     steps: [{ type: String, unique: true, requires: true }],
-    decription: { type: String, unique: true, requires: true },
+    decription: String,
     clickCounter: { type: Number, default: 0 },
     categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     prepareTime: { type: String, requires: true },
