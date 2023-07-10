@@ -4,9 +4,9 @@ const Recipe = require("../../models/Recipe");
 
 exports.getAllRecipies = async (req, res, next) => {
   try {
-    const recipes = await Recipe.find().populate(
-      "Category Ingredient User Review"
-    );
+    const recipes = await Recipe.find()
+      .populate("categories ingredients reviews")
+      .populate("User", "username");
     res.status(200).json(recipes);
   } catch (error) {
     next(error);
@@ -17,7 +17,7 @@ exports.getOneRecipe = async (req, res, next) => {
   try {
     const { recipeId } = req.params;
     const recipe = await Recipe.findById(recipeId).populate(
-      "Category Review Ingredient"
+      "categories reviews ingredients"
     );
     res.status(200).json(recipe);
   } catch (error) {
