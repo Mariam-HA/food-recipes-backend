@@ -1,5 +1,4 @@
 const Category = require("../../models/Category");
-// const Categories = require("../../models/Category");
 const Recipe = require("../../models/Recipe");
 
 exports.getAllRecipies = async (req, res, next) => {
@@ -26,12 +25,19 @@ exports.getOneRecipe = async (req, res, next) => {
 
   const createRecipe = async (req, res, next) => {
     try {
-      if (req.file) {
-        req.body.recipeImage = `${req.file.path}`;
-      }
+      const existingRecipe = await Recipe.findOne({
+        name: req.body.name,
+      });
 
-      const recipe = await Recipe.create(req.body);
-      return res.status(201).json(recipe);
+      if (existingRecipe) {
+        return res.status(400).json({ messge: "Recipe alredy exists!" });
+      } else {
+        if (req.file) {
+          req.body.recipeImage = `${req.file.path}`;
+        }
+        const recipe = await Recipe.create(req.body);
+        return res.status(201).json(recipe);
+      }
     } catch (error) {
       next(error);
     }

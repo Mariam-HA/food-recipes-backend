@@ -3,6 +3,7 @@ const {
   getAllRecipies,
   deleteRecipe,
   getOneRecipe,
+  createRecipe,
 } = require("../Recipes/recipe.controllers");
 const router = express.Router();
 const passport = require("passport");
