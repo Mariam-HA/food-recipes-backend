@@ -5,7 +5,6 @@ const {
   createIngredent,
   deleteIngredentById,
   getAllIngredents,
-  addIngredientToRecipe,
   addNewIngredientToRecipe,
   addExistingIngredientToRecipe,
 } = require("./ingredients.controller");
