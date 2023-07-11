@@ -10,7 +10,7 @@ const recipeSchema = new Schema(
 
     description: { type: String, unique: false, required: true },
 
-    clickCounter: { type: Number, default: 0 },
+    //clickCounter: { type: Number, default: 0 },
 
     prepareTime: { type: String, required: true },
 
