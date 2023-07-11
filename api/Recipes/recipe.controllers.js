@@ -50,6 +50,83 @@ exports.categoryAdd = async (req, res, next) => {
     next(error);
   }
 };
+exports.editRecipe = async (req, res, next) => {
+  try {
+    const { recipeId } = req.params;
+    const recipe = await Recipe.findById(recipeId)
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" })
+    }
+    if (req.user._id.equal(recipe._id)) {
+
+      // category add and remove lists
+      let categoryRemoveList = []
+      let categoryAddList = []
+
+      recipe.categories.forEach((category) => {
+        const found = req.body.categories.find(newCategory => {
+          return newCategory.equal(category)
+        })
+        if (!found) {
+          categoryRemoveList.push(category)
+        }
+      })
+      req.body.categories.forEach((category) => {
+        const found = recipe.categories.find(newCategory => {
+          return newCategory.equal(category)
+        })
+        if (!found) {
+          categoryAddList.push(category)
+        }
+      })
+      categoryRemoveList.forEach(async (category) => {
+        await Category.findByIdAndUpdate(category, {
+          $pull: { recipes: recipe._id }
+        })
+      })
+      categoryAddList.forEach(async (category) => {
+        await Category.findByIdAndUpdate(category, {
+          $push: { recipes: recipe._id }
+        })
+      })
+      //ingredients add and remove lists 
+
+      let ingredientsRemoveList = []
+      let ingredientsAddList = []
+      recipe.ingredients.forEach((ingredient) => {
+        const found = req.body.ingredients.find((newIngredient) => {
+          return newIngredient.equal(ingredient)
+        })
+        if (!found) {
+          ingredientsRemoveList.push(ingredient)
+        }
+      })
+      req.body.ingredients.forEach((ingredient) => {
+        const found = recipe.ingredients.find((newIngredient) => {
+          return newIngredient.equal(ingredient)
+        })
+        if (!found) {
+          ingredientsAddList.push(ingredient)
+        }
+      })
+      ingredientsRemoveList.forEach(async (ingredient) => {
+        await ingredient.findByIdAndUpdate(ingredient, { $pull: { recipes: recipe._id } })
+
+      })
+      ingredientsAddList.forEach(async (ingredient) => {
+        await ingredient.findByIdAndUpdate(ingredient, { $push: { recipes: recipe._id } })
+
+      })
+
+
+
+    } else {
+      return res.status(401).json({ message: " You are not authorized to delete this recipe!" })
+    }
+  } catch (error) {
+    next(error)
+  }
+}
 
 exports.deleteRecipe = async (req, res, next) => {
   try {
@@ -86,19 +163,19 @@ exports.deleteRecipe = async (req, res, next) => {
 
 exports.createRecipe = async (req, res, next) => {
   try {
-    const existingRecipe = await Recipe.findOne({
-      name: req.body.name,
-    });
+    // const existingRecipe = await Recipe.findOne({
+    //   name: req.body.name,
+    // });
 
-    if (existingRecipe) {
-      return res.status(400).json({ messge: "Recipe alredy exists!" });
-    } else {
-      if (req.file) {
-        req.body.recipeImage = `${req.file.path}`;
-      }
-      const recipe = await Recipe.create(req.body);
-      return res.status(201).json(recipe);
+    // if (existingRecipe) {
+    //   return res.status(400).json({ messge: "Recipe alredy exists!" });
+    // } else {
+    if (req.file) {
+      req.body.recipeImage = `${req.file.path}`;
     }
+    const recipe = await Recipe.create(req.body);
+    return res.status(201).json(recipe);
+    // }
   } catch (error) {
     next(error);
   }
