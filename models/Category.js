@@ -3,7 +3,7 @@ const { model, Schema } = require("mongoose");
 const categorySchema = new Schema(
   {
     name: { type: String, unique: true, required: true },
-    catImage: { type: String, required: true },
+    catImage: String,
 
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
