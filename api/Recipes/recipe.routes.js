@@ -15,11 +15,7 @@ const upload = require("../../middlewares/uploader");
 //router.param("userId", param);
 
 router.get("/:recipeId", getOneRecipe);
-router.post(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  createRecipe
-);
+
 router.delete(
   "/:recipeId",
   passport.authenticate("jwt", { session: false }),
