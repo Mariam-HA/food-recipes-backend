@@ -24,10 +24,10 @@ const getCategory = async (req, res, next) => {
 };
 const getCatById = async (req, res, next) => {
   try {
-    const { catigoryId } = req.params;
-    const category = await Category.findById(catigoryId);
+    const { categoryId } = req.params;
+    const category = await Category.findById(categoryId);
     if (category) {
-      res.status(200).json(category);
+      return res.status(200).json(category);
     }
     res.status(404).json({ message: "Category not found" });
   } catch (error) {
@@ -36,7 +36,15 @@ const getCatById = async (req, res, next) => {
 };
 const deleteCat = async (req, res, next) => {
   try {
-    await Category.findByIdAndDelete(req.params.categoryId);
+    const { categoryId } = req.params;
+
+
+    const category = await Category.findById(categoryId)
+
+    if (category.recipes.length > 0) {
+      return res.status(401).json({ message: "you can't delete this category!" });
+    }
+    await category.deleteOne();
     return res.status(204).end();
   } catch (error) {
     next(error);

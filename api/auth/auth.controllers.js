@@ -4,7 +4,7 @@ const generateToken = require("../../utils/auth/generateToken");
 
 exports.getUser = async (req, res, next) => {
   try {
-    const users = await User.find().select("-password"); //to fetches all users from the database but omits the password field in the returned documents.
+    const users = await User.find().select(" username userImage");
     return res.status(200).json(users);
   } catch (err) {
     return next(err);

@@ -1,4 +1,4 @@
-express = require("express");
+const express = require("express");
 const passport = require("passport");
 const Ingredient = require("../../models/Ingredient");
 const {
@@ -9,7 +9,6 @@ const {
   addExistingIngredientToRecipe,
 } = require("./ingredients.controller");
 
-require("dotenv").config();
 
 const router = express.Router();
 

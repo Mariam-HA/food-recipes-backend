@@ -6,7 +6,7 @@ const categorySchema = new Schema(
     catImage: { type: String, required: true },
 
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-    recipies: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
   },
   { timestamps: true }
 );

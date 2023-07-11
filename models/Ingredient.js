@@ -6,7 +6,7 @@ const ingredientSchema = new Schema(
 
     // relations
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-    recipies: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
   },
   { timestamps: true }
 );
