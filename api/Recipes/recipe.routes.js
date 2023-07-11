@@ -5,6 +5,7 @@ const {
   deleteRecipe,
   getOneRecipe,
   createRecipe,
+  editRecipe,
 } = require("../Recipes/recipe.controllers");
 
 const router = express.Router();
@@ -29,5 +30,6 @@ router.post(
   upload.single("recipeImage"),
   createRecipe
 );
+router.put("/:recipeId", passport.authenticate("jwt", { session: false }), editRecipe)
 
 module.exports = router;
