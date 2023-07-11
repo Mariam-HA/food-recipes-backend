@@ -1,4 +1,5 @@
 const Category = require("../../models/Category");
+const Ingredient = require("../../models/Ingredient");
 const Recipe = require("../../models/Recipe");
 
 exports.getAllRecipies = async (req, res, next) => {
@@ -6,6 +7,59 @@ exports.getAllRecipies = async (req, res, next) => {
     const recipes = await Recipe.find().populate("categories ingredients");
     // .populate("User", "username");
     res.status(200).json(recipes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.createRecipe = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.recipeImage = `${req.file.path}`;
+    }
+
+    req.body.createdBy = req.user._id;
+
+    const ingredients = req.body.ingredients.map(async (ingredient) => {
+      try {
+        const ingred = await Ingredient.findById(ingredient);
+        if (!ingred) {
+          return res
+            .status(404)
+            .json({ message: "there is a missing ingredient" });
+        }
+        return ingred;
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    const categories = req.body.categories.map(async (category) => {
+      try {
+        const catego = await Category.findById(category);
+        if (!catego) {
+          return res
+            .status(404)
+            .json({ message: "there is a missing category" });
+        }
+        return catego;
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    const recipe = await Recipe.create(req.body);
+
+    await req.user.updateOne({ $push: { recipes: recipe._id } });
+
+    categories.forEach(async (category) => {
+      await category.updateOne({ $push: { recipies: recipe._id } });
+    });
+    ingredients.forEach(async (ingredeint) => {
+      await ingredeint.updateOne({ $push: { recipies: recipe._id } });
+    });
+
+    res.status(201).json(recipe);
   } catch (error) {
     next(error);
   }
