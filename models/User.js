@@ -5,7 +5,10 @@ const userSchema = new Schema(
     email: { type: String, unique: true, required: true },
     username: { type: String, unique: true },
     password: { type: String, required: true },
-    userImage: String,
+    userImage: {
+      type: String,
+      default: "/",
+    },
 
     // relations
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
