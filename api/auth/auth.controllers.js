@@ -4,7 +4,7 @@ const generateToken = require("../../utils/auth/generateToken");
 
 exports.getUser = async (req, res, next) => {
   try {
-    const users = await User.find(); //.select("-__v");
+    const users = await User.find().select(" username userImage");
     return res.status(200).json(users);
   } catch (err) {
     return next(err);

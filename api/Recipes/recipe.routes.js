@@ -12,7 +12,7 @@ const passport = require("passport");
 const { param } = require("../../utils/params/param");
 const upload = require("../../middlewares/uploader");
 
-router.param("userId", param);
+//router.param("userId", param);
 
 router.get("/:recipeId", getOneRecipe);
 router.post(

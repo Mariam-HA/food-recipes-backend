@@ -12,18 +12,18 @@ const uploader = require("../../middlewares/uploader");
 
 const { param } = require("../../utils/params/param");
 
-const jwt = passport.authenticate("jwt", { session: false });
-const local = passport.authenticate("local", { session: false });
+const jwtAuthenticate = passport.authenticate("jwt", { session: false });
+const localAuthenticate = passport.authenticate("local", { session: false });
 
 router.param("userId", param);
 
-router.get("/", jwt, getUser);
+router.get("/", jwtAuthenticate, getUser);
 
 router.post("/signup", uploader.single("userImage"), signup);
 
 router.post(
   "/signin",
-  passport.authenticate("local", { session: false }),
+  localAuthenticate,
   signin
 );
 
