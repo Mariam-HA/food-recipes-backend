@@ -10,6 +10,7 @@ const {
 const router = express.Router();
 const passport = require("passport");
 const { param } = require("../../utils/params/param");
+const upload = require("../../middlewares/uploader");
 
 router.param("userId", param);
 
@@ -26,6 +27,11 @@ router.delete(
 );
 router.get("/", getAllRecipies);
 
-router.post("/", createRecipe);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("recipeImage"),
+  createRecipe
+);
 
 module.exports = router;

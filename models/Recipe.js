@@ -6,9 +6,9 @@ const recipeSchema = new Schema(
 
     recipeImage: { type: String, required: true },
 
-    steps: [{ type: String, unique: true, required: true }],
+    steps: [{ type: String, unique: false, required: true }],
 
-    description: { type: String, unique: true, required: true },
+    description: { type: String, unique: false, required: true },
 
     clickCounter: { type: Number, default: 0 },
 
