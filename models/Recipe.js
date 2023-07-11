@@ -2,11 +2,17 @@ const { model, Schema } = require("mongoose");
 
 const recipeSchema = new Schema(
   {
-    name: { type: String },
-    // recipeImage: { type: String, required: true },
-    description: { type: String },
-    steps: [{ type: String, required: true }],
-    prepareTime: { type: String },
+    name: { type: String, required: true },
+
+    recipeImage: { type: String, required: true },
+
+    steps: [{ type: String, unique: false, required: true }],
+
+    description: { type: String, unique: false, required: true },
+
+    clickCounter: { type: Number, default: 0 },
+
+    prepareTime: { type: String, required: true },
 
     //relations
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
