@@ -4,7 +4,9 @@ const Recipe = require("../../models/Recipe");
 
 exports.getAllRecipies = async (req, res, next) => {
   try {
-    const recipes = await Recipe.find().populate("categories ingredients");
+    const recipes = await Recipe.find().populate(
+      "categories ingredients createdBy"
+    );
     // .populate("User", "username");
     res.status(200).json(recipes);
   } catch (error) {
