@@ -5,6 +5,7 @@ const {
   deleteRecipe,
   getOneRecipe,
   createRecipe,
+  categoryAdd,
 } = require("../Recipes/recipe.controllers");
 
 const router = express.Router();
@@ -28,6 +29,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   upload.single("recipeImage"),
   createRecipe
+);
+router.put(
+  "/:categoryId/:recipeId",
+  passport.authenticate("jwt", { session: false }),
+  categoryAdd
 );
 
 module.exports = router;

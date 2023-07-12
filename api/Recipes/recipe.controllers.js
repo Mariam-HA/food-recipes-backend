@@ -4,9 +4,12 @@ const Recipe = require("../../models/Recipe");
 
 exports.getAllRecipies = async (req, res, next) => {
   try {
-    const recipes = await Recipe.find().populate(
-      "categories ingredients createdBy"
-    );
+    const recipes = await Recipe.find()
+      .populate("categories ingredients")
+      .populate({
+        path: "createdBy",
+        select: "username _id email userImage",
+      });
     // .populate("User", "username");
     res.status(200).json(recipes);
   } catch (error) {
@@ -68,9 +71,13 @@ exports.createRecipe = async (req, res, next) => {
 exports.getOneRecipe = async (req, res, next) => {
   try {
     const { recipeId } = req.params;
-    const recipe = await Recipe.findById(recipeId).populate(
-      "categories reviews ingredients"
-    );
+    const recipe = await Recipe.findById(recipeId)
+      .populate("categories ingredients")
+      .populate({
+        path: "createdBy",
+        select: "username _id email userImage",
+      });
+
     res.status(200).json(recipe);
   } catch (error) {
     next(error);
