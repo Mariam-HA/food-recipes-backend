@@ -5,7 +5,7 @@ const {
   deleteRecipe,
   getOneRecipe,
   createRecipe,
-  categoryAdd,
+  editRecipe,
 } = require("../Recipes/recipe.controllers");
 
 const router = express.Router();
@@ -31,9 +31,9 @@ router.post(
   createRecipe
 );
 router.put(
-  "/:categoryId/:recipeId",
+  "/:recipeId",
   passport.authenticate("jwt", { session: false }),
-  categoryAdd
+  editRecipe
 );
 
 module.exports = router;
