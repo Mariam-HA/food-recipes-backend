@@ -30,6 +30,10 @@ router.post(
   upload.single("recipeImage"),
   createRecipe
 );
-router.put("/:recipeId", passport.authenticate("jwt", { session: false }), editRecipe)
+router.put(
+  "/:recipeId",
+  passport.authenticate("jwt", { session: false }),
+  editRecipe
+);
 
 module.exports = router;

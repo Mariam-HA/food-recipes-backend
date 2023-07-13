@@ -9,7 +9,6 @@ const {
   addExistingIngredientToRecipe,
 } = require("./ingredients.controller");
 
-
 const router = express.Router();
 
 const signedIn = passport.authenticate("jwt", { session: false });

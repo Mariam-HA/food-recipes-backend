@@ -25,7 +25,10 @@ const getCategory = async (req, res, next) => {
 const getCatById = async (req, res, next) => {
   try {
     const { categoryId } = req.params;
-    const category = await Category.findById(categoryId);
+    const category = await Category.findById(categoryId).populate({
+      path: "recipes",
+      populate: "categories ingredients createdBy",
+    });
     if (category) {
       return res.status(200).json(category);
     }
@@ -38,11 +41,12 @@ const deleteCat = async (req, res, next) => {
   try {
     const { categoryId } = req.params;
 
-
-    const category = await Category.findById(categoryId)
+    const category = await Category.findById(categoryId);
 
     if (category.recipes.length > 0) {
-      return res.status(401).json({ message: "you can't delete this category!" });
+      return res
+        .status(401)
+        .json({ message: "you can't delete this category!" });
     }
     await category.deleteOne();
     return res.status(204).end();
